@@ -1,2 +1,6 @@
 .DS_Store
 .vscode/
+
+#Remove .DS_Store from subfolders
+#find . -name .DS_Store -exec rm {} \;
+#

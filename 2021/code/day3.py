@@ -11,7 +11,7 @@ lenCadenes = len(lines[0])
 print(lenCadenes)
 
 gamma = ""
-epsilon_rate = "" #bit invers de gamma
+epsilonRate = "" #bit invers de gamma
 
 for i in range(lenCadenes):
     num_zeros = 0
@@ -23,13 +23,36 @@ for i in range(lenCadenes):
             num_uns += 1
     if (num_zeros > num_uns):
         gamma += "0"
-        epsilon_rate += "1"
+        epsilonRate += "1"
     else:
         gamma += "1"
-        epsilon_rate += "0"
+        epsilonRate += "0"
 
 gamma = bin2dec(gamma)
-epsilon_rate = bin2dec(epsilon_rate)
+epsilonRate = bin2dec(epsilonRate)
         
-power_consumption = gamma * epsilon_rate
-print(f"Power Consumption: {power_consumption}")
+powerConsumption = gamma * epsilonRate
+print(f"Power Consumption: {powerConsumption}")
+
+
+def filterNumbers(numbers, common):
+    for i in range(len(numbers[0])):
+        if len(numbers) == 1:
+            break
+        bit_count = sum(int(num[i]) for num in numbers)
+        if common:
+            desired_bit = '1' if bit_count >= len(numbers) / 2 else '0'
+        else:
+            desired_bit = '0' if bit_count >= len(numbers) / 2 else '1'
+        numbers = [num for num in numbers if num[i] == desired_bit]
+    return numbers[0]
+
+
+oxygen_generator_rating = filterNumbers(lines.copy(), common=True)
+co2_scrubber_rating = filterNumbers(lines.copy(), common=False)
+
+oxygen_generator_rating_decimal = int(oxygen_generator_rating, 2)
+co2_scrubber_rating_decimal = int(co2_scrubber_rating, 2)
+
+life_support_rating = oxygen_generator_rating_decimal * co2_scrubber_rating_decimal
+print(f"Life Support Rating: {life_support_rating}")
